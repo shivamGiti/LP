@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Graph{
+    int no_of_nodes=0;
+    int no_of_edges=0;
+    bool visited_nodes[50];
+    int adj_matrix[50][50];
+    public:
+    Graph(int v){
+        no_of_nodes=v;
+        for(int i=0;i<no_of_nodes;i++)
+        {
+            // cout<<"for i = "<<i<<endl;
+            visited_nodes[i]=false;
+            for(int j=0;j<no_of_nodes;j++){
+                adj_matrix[i][j]=0;
+            }
+        }
+    }
+    void insert_edges(){
+        int x,y;
+        cout<<"Enter number of edges = ";
+        cin>>no_of_edges;
+        for(int i=0;i<no_of_edges;i++){
+            cout<<"Enter edge in form of (x,y): ";
+            cin>>x>>y;
+            adj_matrix[x][y]=adj_matrix[y][x]=1;
+        }
+    }
+
+    void BFS(int starting_node)
+    {
+        queue<int> q;
+        visited_nodes[starting_node]=true;
+
+        q.push(starting_node);
+        BFSRecursive(q);
+    }
+    
+    void BFSRecursive(queue<int> &q)
+    {
+        if(q.empty())
+        {
+            return ;
+        }
+        int front_node=q.front();
+        q.pop();
+        cout<<front_node<<" ";
+        // Add Adj node of fornt node in queue
+        for(int i=0;i<no_of_nodes;i++)
+        {
+            if(adj_matrix[front_node][i]==1 && !visited_nodes[i])
+            {
+                visited_nodes[i]=true;
+                q.push(i);
+            }
+        }
+        BFSRecursive(q);
+    }
+
+    void DFSRecursive(Graph &gr,int v,vector<bool> &visited_nodes){
+        visited_nodes[v]=true;
+        cout<<v<<" ";
+        for(int i=0;i<no_of_nodes;i++){
+            if(adj_matrix[v][i]==1 && !visited_nodes[i]){
+                DFSRecursive(gr,i,visited_nodes);
+            }
+        }
+    }
+
+};
+int main()
+{
+    int ver,s;
+    cout<<"Enter number of nodes = ";
+    cin>>ver;
+    Graph g(ver);
+    vector<bool> visited_nodes(ver,false);
+    g.insert_edges();
+    cout<<"Enter starting node : ";
+    cin>>s;
+    cout<<"BFS:";
+    g.BFS(s);
+    cout<<endl;
+    cout<<"DFS:";
+    g.DFSRecursive(g,s,visited_nodes);
+}
