@@ -1,0 +1,66 @@
+
+import random
+
+# Define a list of available hotels and their corresponding prices
+hotels = {
+    "Hotel A": 100,
+    "Hotel B": 120,
+    "Hotel C": 150,
+    "Hotel D": 200,
+    "Hotel E": 250
+}
+
+# Define a function to generate a random booking ID
+def generate_booking_id():
+    return ''.join(random.choices('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=6))
+
+# Define the main function for the chatbot
+def hotel_booking_chatbot():
+    print("Welcome to Hotel Booking Chatbot!")
+    print("What's your name?")
+    name = input()
+    print("Hi " + name + "! How can I help you today?")
+
+    # Start the booking loop
+    while True:
+        print("Type 'book' to book a hotel or 'quit' to exit.")
+        user_input = input().lower()
+
+        # Check if the user wants to book a hotel
+        if user_input == "book":
+            print("Which hotel would you like to book?")
+            for hotel in hotels:
+                print("- " + hotel + " ($" + str(hotels[hotel]) + "/night)")
+            hotel_name = input().title()
+
+            # Check if the chosen hotel is available
+            if hotel_name in hotels:
+                print("How many nights do you want to stay?")
+                num_nights = int(input())
+
+                # Calculate the total cost of the booking
+                total_cost = hotels[hotel_name] * num_nights
+
+                # Generate a booking ID
+                booking_id = generate_booking_id()
+
+                # Confirm the booking and display the details
+                print("Thank you for your booking! Your booking ID is " + booking_id + ".")
+                print("You have booked " + hotel_name + " for " + str(num_nights) + " nights.")
+                print("The total cost of your booking is $" + str(total_cost) + ".")
+
+            else:
+                print("Sorry, that hotel is not available.")
+
+        # Check if the user wants to quit
+        elif user_input == "quit":
+            print("Thank you for using Hotel Booking Chatbot. Goodbye!")
+            break
+
+        # Handle invalid input
+        else:
+            print("Sorry, I didn't understand that. Please try again.")
+        
+# Call the main function
+hotel_booking_chatbot()
+
